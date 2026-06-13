@@ -1,26 +1,131 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-cream: #f4f7fb;
+  --color-navy: #1b3a6b;
+  --color-navy-dk: #0f2447;
+  --color-navy-lt: #e8eef8;
+  --color-gold: #c8973a;
+  --color-gold-lt: #fdf5e4;
+  --color-muted: #6e7488;
+  --color-border: #d5dff0;
+
+  --font-serif: var(--font-cormorant), serif;
+  --font-sans: var(--font-dm-sans), sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  color: #1c1f2b;
+  background: #ffffff;
+  line-height: 1.6;
+}
+
+/* Custom Thin Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(27, 58, 107, 0.3);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(27, 58, 107, 0.6);
+}
+
+@layer utilities {
+  .image-rendering-high-quality {
+    image-rendering: high-quality;
+  }
+
+  .animate-fade-up {
+    animation: fade-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .animate-fade-in {
+    animation: fade-in 0.9s ease-out both;
+  }
+  .animate-kenburns {
+    animation: kenburns 6s ease-out both;
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes kenburns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+@layer components {
+  [data-rmiz] {
+    @apply block relative w-full h-full;
+  }
+
+  [data-rmiz-content] {
+    @apply relative w-full h-full;
+  }
+
+  [data-rmiz-ghost] {
+    @apply pointer-events-none absolute;
+  }
+  
+  [data-rmiz-btn-zoom],
+  [data-rmiz-btn-unzoom] {
+    @apply hidden;
+  }
+  
+  [data-rmiz-modal][open] {
+    @apply fixed inset-0 w-screen h-screen m-0 p-0 overflow-hidden;
+    @apply max-w-none max-h-none bg-transparent z-50;
+  }
+  
+  [data-rmiz-modal-overlay] {
+    @apply absolute inset-0 transition-colors;
+  }
+  
+  [data-rmiz-modal-img] {
+    @apply absolute transition-transform duration-300;
+    transform-origin: 0 0;
+  }
+  
+  [data-rmiz-content="found"] img {
+    @apply cursor-zoom-in;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-rmiz-modal-overlay],
+  [data-rmiz-modal-img] {
+    transition-duration: 0.01ms !important;
+  }
 }
