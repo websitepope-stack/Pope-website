@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Pope Memorial Higher Secondary School
+
+A modern, responsive web application for Pope Memorial Higher Secondary School, Sawyerpuram. Built with Next.js and Tailwind CSS, this project serves as the official school website, providing information about academics, activities, achievements, and school history.
+
+## Technology Stack
+
+- **Framework**: Next.js (App Router)
+- **Styling**: Tailwind CSS
+- **Icons**: Lucide React
+- **Animations**: AOS (Animate on Scroll)
+- **Media Viewing**: LightGallery, React Medium Image Zoom
+- **Image Optimization**: Next Image Export Optimizer
+
+## Architecture
+
+The application is built using the Next.js App Router paradigm, heavily utilizing React Server Components for optimal performance and SEO. 
+
+### Key Directories
+- `/app`: Contains the routing structure (`/`, `/activities`, `/achievements`, `/gallery`).
+- `/components`: Modular UI components used across the application (e.g., `Navbar`, `Footer`, `Hero`, `Contact`).
+- `/lib`: Core utilities and API integration logic. The `api.js` file handles all data fetching from the headless CMS.
+
+### Data Fetching
+Content is dynamically fetched from the Pope Memorial CMS backend (`api.popememorialhss.org`). The application uses Next.js fetch caching mechanisms to ensure fast delivery while keeping content up to date. Contact submissions are also routed through this API.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+- Node.js (v18 or higher recommended)
+- npm, yarn, pnpm, or bun
 
+### Installation
+
+1. Install the dependencies:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Run the development server:
+```bash
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+3. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Build and Deployment
 
-## Learn More
+The project is configured for static export by default in `next.config.mjs` (`output: "export"`). 
 
-To learn more about Next.js, take a look at the following resources:
+To build the project for production:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run build
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This will generate an optimized static HTML/CSS/JS output in the `out` directory, which can be deployed to any static hosting provider.
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Copyright © Pope Memorial Higher Secondary School. All rights reserved.

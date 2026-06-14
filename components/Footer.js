@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { getContact, getDioceses } from "@/lib/api";
 
 function FacebookIcon(props) {
   return (
@@ -28,28 +29,50 @@ function YoutubeIcon(props) {
 }
 
 const schoolLinks = [
-  { href: "#", label: "Home" },
-  { href: "#about", label: "About School" },
-  { href: "#diocese", label: "Diocese" },
-  { href: "#vision", label: "Vision & Mission" },
-  { href: "#rules", label: "Rules & Regulations" },
+  { href: "/", label: "Home" },
+  { href: "/#about", label: "About School" },
+  { href: "/#diocese", label: "Diocese" },
+  { href: "/#vision", label: "Vision & Mission" },
+  { href: "/#rules", label: "Rules & Regulations" },
 ];
 
 const academicsLinks = [
-  { href: "#academics", label: "Programmes" },
-  { href: "#activities", label: "Activities" },
-  { href: "#achievements", label: "Achievements" },
-  { href: "#staff", label: "Staff" },
+  { href: "/#academics", label: "Programmes" },
+  { href: "/activities", label: "Activities" },
+  { href: "/achievements", label: "Achievements" },
+  { href: "/#staff", label: "Staff" },
 ];
 
 const contactLinks = [
   { href: "tel:04630273329", label: "04630-273329" },
   { href: "mailto:popemhsss@gmail.com", label: "popemhsss@gmail.com" },
-  { href: "#", label: "Gallery" },
-  { href: "#contact", label: "Contact Us" },
+  { href: "/gallery", label: "Gallery" },
+  { href: "/#contact", label: "Contact Us" },
 ];
 
-export default function Footer() {
+export default async function Footer() {
+  const [contact, dioceses] = await Promise.all([getContact(), getDioceses()]);
+  const items = contact?.length ? contact : [];
+  const hasDiocese = dioceses && dioceses.length > 0;
+
+  const phoneItem = items.find(i => i.icon === "Phone")?.value || "04630-273329";
+  const emailItem = items.find(i => i.icon === "Mail")?.value || "popemhsss@gmail.com";
+
+  const dynamicContactLinks = contactLinks.map(link => {
+    if (link.href.startsWith("tel:")) {
+      return { href: `tel:${phoneItem.replace(/[^0-9+]/g, "")}`, label: phoneItem };
+    }
+    if (link.href.startsWith("mailto:")) {
+      return { href: `mailto:${emailItem}`, label: emailItem };
+    }
+    return link;
+  });
+
+  const dynamicSchoolLinks = schoolLinks.filter(link => {
+    if (link.label === "Diocese" && !hasDiocese) return false;
+    return true;
+  });
+
   return (
     <footer className="bg-navy-dk px-[5%] pb-7 pt-15 text-white">
       <div className="mb-11 grid grid-cols-1 gap-11 sm:grid-cols-2 lg:grid-cols-[2.2fr_1fr_1fr_1fr]">
@@ -77,7 +100,7 @@ export default function Footer() {
             School
           </h4>
           <ul className="flex flex-col gap-2.5">
-            {schoolLinks.map((link) => (
+            {dynamicSchoolLinks.map((link) => (
               <li key={link.label}>
                 <a
                   href={link.href}
@@ -113,7 +136,7 @@ export default function Footer() {
             Contact
           </h4>
           <ul className="flex flex-col gap-2.5">
-            {contactLinks.map((link) => (
+            {dynamicContactLinks.map((link) => (
               <li key={link.label}>
                 <a
                   href={link.href}

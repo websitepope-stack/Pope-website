@@ -19,7 +19,7 @@ import {
   getDioceses,
   getStreams,
   getVisionMission,
-  getRules,
+  getRules, 
   getContact
 } from "@/lib/api";
 

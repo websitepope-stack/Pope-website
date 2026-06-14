@@ -31,6 +31,7 @@ function Avatar({ person, size }) {
 
 export default async function Diocese() {
   const dioceses = await getDioceses();
+  //console.log("DIOCESES DATA:", dioceses);
 
   let head = null;
   let members = [];

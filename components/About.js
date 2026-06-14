@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { BookOpen, Church, Sprout, HeartHandshake, Phone } from "lucide-react";
+import { getContact } from "@/lib/api";
 
 const panelItems = [
   {
@@ -29,7 +30,19 @@ const panelItems = [
   },
 ];
 
-export default function About() {
+export default async function About() {
+  const contact = await getContact();
+  const items = contact?.length ? contact : [];
+  const phone = items.find(i => i.icon === "Phone")?.value || "04630-273329";
+  const email = items.find(i => i.icon === "Mail")?.value || "popemhsss@gmail.com";
+
+  const dynamicPanelItems = panelItems.map(item => {
+    if (item.title === "Get in Touch") {
+      return { ...item, text: `${email}  ·  ${phone}` };
+    }
+    return item;
+  });
+
   return (
     <section className="bg-white px-[5%] py-22" id="about">
       <div className="grid grid-cols-1 gap-16 lg:grid-cols-2">
@@ -87,7 +100,7 @@ export default function About() {
         </div>
 
         <div className="flex flex-col gap-12 rounded-[18px] bg-navy p-9 text-white justify-center">
-          {panelItems.map(({ icon: Icon, title, text }, index) => (
+          {dynamicPanelItems.map(({ icon: Icon, title, text }, index) => (
             <div
               key={title}
               className="flex items-start gap-3.5 transition-transform duration-300 hover:translate-x-1"
